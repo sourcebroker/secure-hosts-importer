@@ -1,8 +1,12 @@
 Changelog
 ---------
 
-master
-~~~~~~
+1.2.1
+~~~~~
+1) [BUGFIX] Fix wrong tag in changelog
+
+1.2.0
+~~~~~
 1) [TASK] Replace "\n" with EOL for some cases.
 2) [TASK] Make the backup name more unique like "hosts.20181012091013.secure-hosts-importer.backup".
 3) [TASK] Move exception "Host file under path not found" to beginning of flow.
