@@ -7,7 +7,7 @@ secure-hosts-importer
 What does it do?
 ****************
 
-This package allows you to import hosts file from any url and mix it with your hosts file.
+This php script allows you to import hosts file from any url and mix it with your hosts file.
 For security reason each line of imported hosts is checked to have "0.0.0.0" at the beginning so its impossible for
 bad guys to fake your local host file with wrong domain pointers.
 
