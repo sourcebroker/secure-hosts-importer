@@ -69,11 +69,12 @@ Usage
 
 2. Run ``sudo php secure-hosts-importer.php``. It will import hosts from this project https://github.com/StevenBlack/hosts from
    url https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts
+
    You can change it to your url by setting env var ``HOSTS_IMPORTER__HOSTS_FILE_URL``.
 
 3. Check your hosts file. Between markers there should be your hosts from url injected. The old hosts file is backuped
-   under name ``hosts.[date].backup``. After few update you can expect to see something like below. There is rotation 5
-   last backups are keep.
+   under name ``hosts.[date].backup``. After few updates you can expect to see something like below. There is rotation
+   set to keep last 5 backups.
 
    ::
 
@@ -84,7 +85,7 @@ Usage
      hosts.20180628103528.backup
      hosts.20180628103537.backup
 
-4. By default script look for hosts file under /etc/hosts. If you have your hosts file under different location then you
+4. By default script look for hosts file under ``/etc/hosts``. If you have your hosts file under different location then you
    can overwrite it with env var ``HOSTS_IMPORTER__HOSTS_FILE``
 
 Changelog
