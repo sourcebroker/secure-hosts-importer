@@ -21,11 +21,7 @@ bad guys to fake your local host file with wrong domain pointers.
 Installation
 ************
 
-Use composer:
-
-::
-
-  composer require sourcebroker/secure-hosts-importer
+Clone repo or download file ``secure-hosts-importer.php``.
 
 
 Usage
