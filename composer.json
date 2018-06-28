@@ -1,0 +1,14 @@
+{
+  "name": "sourcebroker/secure-hosts-importer",
+  "description": "Import hosts file from any url and mix it with your hosts file in secure way.",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Krystian Szymukowicz",
+      "email": "k.szymukowicz@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0"
+  }
+}
