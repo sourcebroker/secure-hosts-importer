@@ -11,7 +11,50 @@ try {
         throw new \Exception('Host file under: ' . $hostFile . ' does not exists.');
     }
 
-    echo('1. Download hosts file from ' . $hostFileUrl . ' and store it temporary for security check... ');
+    echo('1. Make backup of current hosts file and do cleanup of old backups... ');
+    copy($hostFile, $hostFile . '.' . date('YmdHis') . '.secure-hosts-importer.backup');
+    $backupCount = 0;
+    $files = glob($hostFile . '.[0-9]*.secure-hosts-importer.backup');
+    natsort($files);
+    foreach (array_reverse($files) as $file) {
+        if ($backupCount++ >= $hostFileUrlBackupNumber) {
+            unlink($file);
+        }
+    }
+    echo('done.' . PHP_EOL);
+
+
+    echo('2. Check if markers for injecting exists, if not create new at the end of files... ');
+    $currentHostFileLineCount = 0;
+    $currentHostFileHandle = fopen($hostFile, "r");
+    $startMarkerAvailable = $endMarkerAvailable = false;
+    while (!feof($currentHostFileHandle)) {
+        $currentHostFileLine = fgets($currentHostFileHandle);
+        if (strpos($currentHostFileLine, $hostFileMarkerStart) !== false) {
+            $startMarkerAvailable = true;
+        }
+        if (strpos($currentHostFileLine, $hostFileMarkerEnd) !== false) {
+            $endMarkerAvailable = true;
+        }
+        $currentHostFileLineCount++;
+    }
+    if ($startMarkerAvailable === true && $endMarkerAvailable === false) {
+        throw new \Exception('You have start marker "' . $hostFileMarkerStart .
+            '" in your host file "' . $hostFile . '" but the end marker "' . $hostFileMarkerEnd . '" is missing.');
+    }
+    if ($startMarkerAvailable === false && $endMarkerAvailable === true) {
+        throw new \Exception('You have end marker "' . $hostFileMarkerEnd .
+            '" in your host file "' . $hostFile . '" but the start marker "' . $hostFileMarkerStart . '" is missing.');
+    }
+    fclose($currentHostFileHandle);
+
+    if ($startMarkerAvailable === false && $endMarkerAvailable === false) {
+        file_put_contents($hostFile, $hostFileMarkerStart . PHP_EOL . $hostFileMarkerEnd . PHP_EOL, FILE_APPEND);
+    }
+    echo('done.' . PHP_EOL);
+
+
+    echo('3. Download hosts file from ' . $hostFileUrl . ' and store it temporary for security check... ');
     $downloadedHostsFilename = sys_get_temp_dir() . '/hosts_installer_rawhosts' .
         rand(1, 10000000) . time() . '.txt';
     $ch = curl_init();
@@ -28,14 +71,7 @@ try {
     echo('done.' . PHP_EOL);
 
 
-    echo('2. Mix the current host file content with downloaded host entries... ');
-    $currentHostFileLineCount = 0;
-    $currentHostFileHandle = fopen($hostFile, "r");
-    while (!feof($currentHostFileHandle)) {
-        $line = fgets($currentHostFileHandle);
-        $currentHostFileLineCount++;
-    }
-    fclose($currentHostFileHandle);
+    echo('4. Mix the current host file content with downloaded host entries... ');
     $newHostFile = sys_get_temp_dir() . '/hosts_installer_newhostfile' . rand(1, 10000000) . time() . '.txt';
     $downloadedHostsFileHandle = fopen($downloadedHostsFilename, 'r');
     $currentHostFileHandle = fopen($hostFile, 'r');
@@ -74,20 +110,7 @@ try {
     echo('done.' . PHP_EOL);
 
 
-    echo('3. Make backup of current hosts file and do cleanup of old backups... ');
-    copy($hostFile, $hostFile . '.' . date('YmdHis') . '.secure-hosts-importer.backup');
-    $backupCount = 0;
-    $files = glob($hostFile . '.[0-9]*.secure-hosts-importer.backup');
-    natsort($files);
-    foreach (array_reverse($files) as $file) {
-        if ($backupCount++ >= $hostFileUrlBackupNumber) {
-            unlink($file);
-        }
-    }
-    echo('done.' . PHP_EOL);
-
-
-    echo('4. Replace current hosts file with new one... ');
+    echo('5. Replace current hosts file with new one... ');
     copy($newHostFile, $hostFile);
     unlink($newHostFile);
     echo('done.' . PHP_EOL);
