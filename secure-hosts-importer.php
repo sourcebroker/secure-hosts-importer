@@ -24,7 +24,7 @@ try {
     echo('done.' . PHP_EOL);
 
 
-    echo('2. Check if markers for injecting exists, if not create new at the end of files... ');
+    echo('2. Check if markers for injecting exists - if not create new at the end of file... ');
     $currentHostFileLineCount = 0;
     $currentHostFileHandle = fopen($hostFile, "r");
     $startMarkerAvailable = $endMarkerAvailable = false;

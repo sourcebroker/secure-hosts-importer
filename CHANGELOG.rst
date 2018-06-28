@@ -4,6 +4,7 @@ Changelog
 1.2.1
 ~~~~~
 1) [BUGFIX] Fix wrong tag in changelog
+2) [BUGFIX] Fix typo in subtask description.
 
 1.2.0
 ~~~~~
