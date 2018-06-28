@@ -7,10 +7,10 @@ $hostFileMarkerEnd = getenv('HOSTS_IMPORTER__MARKER_END') ?: '###HOSTS_IMPORTER_
 $hostFileUrlBackupNumber = 5;
 
 try {
-    if(file_exists($hostFile)) {
+    if (file_exists($hostFile)) {
         echo('1. Download hosts file from ' . $hostFileUrl . ' and store it temporary for security check... ');
-        $downloadedHostsFilename = sys_get_temp_dir() . '/hosts_installer_rawhosts' . rand(1,
-                10000000) . time() . '.txt';
+        $downloadedHostsFilename = sys_get_temp_dir() . '/hosts_installer_rawhosts' .
+            rand(1, 10000000) . time() . '.txt';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $hostFileUrl);
         curl_setopt($ch, CURLOPT_VERBOSE, 0);

@@ -1,12 +1,6 @@
 secure-hosts-importer
 #####################
 
-  .. image:: https://poser.pugx.org/sourcebroker/secure-hosts-importer/v/stable
-    :target: https://packagist.org/packages/sourcebroker/secure-hosts-importer
-
-  .. image:: https://poser.pugx.org/sourcebroker/secure-hosts-importer/license
-    :target: https://packagist.org/packages/sourcebroker/secure-hosts-importer
-
 .. contents:: :local:
 
 
