@@ -78,6 +78,40 @@ Usage
 4. By default script look for hosts file under ``/etc/hosts``. If you have your hosts file under different location then you
    can overwrite it with env var ``HOSTS_IMPORTER__HOSTS_FILE``
 
+Local server
+############
+
+If you use local Apache server then by default it will listen to all IPs. When apache does not find requested domain for
+any vhost it takes first vhost sorted alphabetically. This is why its good to create vhost which will catch all traffic
+from 0.0.0.0. Its suggested that you create new vhost in folder of vhosts and name it "00-default.conf" and put following
+config inside:
+
+::
+
+  <VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot "/var/www/empty"
+    <Directory "/var/www/empty">
+        AllowOverride None
+        Options -Indexes
+        Require all denied
+    </Directory>
+    ErrorLog /dev/null
+    CustomLog /dev/null comm
+  </VirtualHost>
+
+  <VirtualHost *:443>
+    ServerAdmin webmaster@localhost
+    DocumentRoot "/var/www/empty"
+    <Directory "/var/www/empty">
+        AllowOverride None
+        Options -Indexes
+        Require all denied
+    </Directory>
+    ErrorLog /dev/null
+    CustomLog /dev/null comm
+  </VirtualHost>
+
 Changelog
 *********
 
